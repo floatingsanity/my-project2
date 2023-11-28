@@ -8,81 +8,151 @@ class MyProject2 extends LitElement {
   }
 
   static styles = css`
-    :host {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      font-size: calc(10px + 2vmin);
-      color: #1a2b42;
-      max-width: 960px;
-      margin: 0 auto;
-      text-align: center;
-      background-color: var(--my-project2-background-color);
-    }
-
-    main {
-      flex-grow: 1;
-    }
-
-    .logo {
-      margin-top: 36px;
-      animation: app-logo-spin infinite 20s linear;
-    }
-
-    @keyframes app-logo-spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .app-footer {
-      font-size: calc(12px + 0.5vmin);
-      align-items: center;
-    }
-
-    .app-footer a {
-      margin-left: 5px;
-    }
-  `;
-
-  constructor() {
-    super();
-    this.header = 'My app';
+  :host {
+    display: block;
   }
 
-  render() {
-    return html`
-      <main>
-        <div class="logo"><img alt="open-wc logo" src=${logo} /></div>
-        <h1>${this.header}</h1>
+  :host .custom-button-blue.hovered {
+    background-color: #ccf0ff;
+    color: #001E44;
+    border: 2px solid #ccf0ff;
+    text-decoration: none;
+  }
 
-        <p>Edit <code>src/MyProject2.js</code> and save to reload.</p>
-        <a
-          class="app-link"
-          href="https://open-wc.org/guides/developing-components/code-examples/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Code examples
-        </a>
-      </main>
+  :host .custom-button-white.hovered {
+    background-color: #1E407C;
+    color: #fff;
+    text-decoration: none;
+  }
 
-      <p class="app-footer">
-        🚽 Made with love by
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/open-wc"
-          >open-wc</a
-        >.
-      </p>
-    `;
+  :host .custom-button-gray.hovered {
+    background-color: #5a7e9c;
+    text-decoration: none;
+  }
+  .custom-button-blue,
+  .custom-button-white,
+  .custom-button-gray {
+    width: 90%;
+    padding: 16px;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    margin-top: 0;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    display: block;
+    margin: 20px auto;
+    margin-bottom: 30px;
+    text-decoration: none;
+  }
+
+  .custom-button-blue {
+    background-color: #001E44;
+    color: #ccf0ff;
+    border: 2px solid #ccf0ff;
+  }
+
+  .custom-button-white {
+    background-color: #fff;
+    border: 2px solid #1E407C;
+    color: #1E407C;
+  }
+
+  .custom-button-gray {
+    background-color: #5a7e9c;
+    color: #fff;
+    border: 2px solid #fff;
+  }
+
+  .button-container {
+      padding: 90px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .gray-container {
+      background-color: #f2f2f2;
+      width: 60%;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      margin-top: 0%;
+      margin-left: -7%
+    }
+
+    .white-container {
+      background-color: #f2f2f2;
+      width: 60%;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      margin-top: -20%;
+      margin-left: -7%
+    }
+
+    .blue-container {
+      background-color: #001E44;
+      width: 60%;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+`;
+
+firstUpdated() {
+  super.firstUpdated();
+
+  const blueButton = this.shadowRoot.getElementById('myButtonBlue');
+  const whiteButton = this.shadowRoot.getElementById('myButtonWhite');
+  const grayButton = this.shadowRoot.querySelector('.custom-button-gray');
+
+  blueButton.addEventListener('mouseenter', () => this.addHoverStyles(blueButton));
+  blueButton.addEventListener('mouseleave', () => this.removeHoverStyles(blueButton));
+
+  whiteButton.addEventListener('mouseenter', () => this.addHoverStyles(whiteButton));
+  whiteButton.addEventListener('mouseleave', () => this.removeHoverStyles(whiteButton));
+
+  grayButton.addEventListener('mouseenter', () => this.addHoverStyles(grayButton));
+  grayButton.addEventListener('mouseleave', () => this.removeHoverStyles(grayButton));
+}
+
+addHoverStyles(element) {
+  if (!element.classList.contains('hovered')) {
+    element.classList.add('hovered');
   }
 }
+
+removeHoverStyles(element) {
+  element.classList.remove('hovered');
+}
+
+render() {
+  return html`
+    <main>
+      <div class="blue-section">
+        <div class="blue-container">
+          <p>Get the news by email</p>
+          <a href="https://headlines.psu.edu" class="custom-button-blue" id="myButtonBlue">DISCOVER NEWS ></a>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <div class="white-container">
+          <p>Get the news by email</p>
+          <a href="https://headlines.psu.edu" class="custom-button-white" id="myButtonWhite">DISCOVER NEWS ></a>
+        </div>
+
+        <div class="gray-container">
+          <p>Get the news by email</p>
+          <a href="https://headlines.psu.edu" class="custom-button-gray">DISCOVER NEWS ></a>
+        </div>
+      </div>
+    </main>
+  `;
+}
+}
+
+
 
 customElements.define('my-project2', MyProject2);
