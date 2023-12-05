@@ -1,86 +1,93 @@
 import { LitElement, html, css } from 'lit';
 
-const logo = new URL('../assets/open-wc-logo.svg', import.meta.url).href;
-
 class MyProject2 extends LitElement {
   static properties = {
-    header: { type: String },
-  }
+    link: { type: String },
+    id: { type: String },
+    type: { type: String },
+  };
 
   static styles = css`
-    :host {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      font-size: calc(10px + 2vmin);
-      color: #1a2b42;
-      max-width: 960px;
-      margin: 0 auto;
+    .custom-button-container {
       text-align: center;
-      background-color: var(--my-project2-background-color);
+      margin-bottom: 20px;
     }
 
-    main {
-      flex-grow: 1;
+    .custom-button {
+      display: inline-block;
+      padding: 16px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: #fff;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
 
-    .logo {
-      margin-top: 36px;
-      animation: app-logo-spin infinite 20s linear;
+    .custom-button.hovered {
+      text-decoration: none;
+      cursor: pointer;
     }
 
-    @keyframes app-logo-spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
+    .custom-button.blue {
+      background-color: var(--blue-section-color, #001E44);
+      border: 2px solid var(--blue-section-border-color, #ccf0ff);
     }
 
-    .app-footer {
-      font-size: calc(12px + 0.5vmin);
-      align-items: center;
+    .custom-button.blue.hovered {
+      background-color: var(--blue-section-hover-color, #ccf0ff);
+      color: var(--blue-section-text-color, #001E44);
+      border: 2px solid var(--blue-section-hover-border-color, #ccf0ff);
     }
 
-    .app-footer a {
-      margin-left: 5px;
+    .custom-button.white {
+      background-color: var(--white-section-color, #fff);
+      border: 2px solid var(--white-section-border-color, #1E407C);
+      color: var(--white-section-text-color, #1E407C);
+    }
+
+    .custom-button.white.hovered {
+      background-color: var(--white-section-hover-color, #1E407C);
+      color: var(--white-section-hover-text-color, #fff);
+    }
+
+    .custom-button.gray {
+      background-color: var(--gray-section-color, #5a7e9c);
+      border: 2px solid var(--gray-section-border-color, #fff);
+      color: var(--gray-section-text-color, #fff);
+    }
+
+    .custom-button.gray.hovered {
+      background-color: var(--gray-section-hover-color, #5a7e9c);
+      color: var(--gray-section-hover-text-color, #fff);
     }
   `;
 
   constructor() {
     super();
-    this.header = 'My app';
+    this.addEventListener('mouseenter', this.addHoverStyles.bind(this));
+    this.addEventListener('mouseleave', this.removeHoverStyles.bind(this));
+  }
+
+  addHoverStyles() {
+    this.shadowRoot.querySelector('.custom-button').classList.add('hovered');
+  }
+
+  removeHoverStyles() {
+    this.shadowRoot.querySelector('.custom-button').classList.remove('hovered');
   }
 
   render() {
     return html`
-      <main>
-        <div class="logo"><img alt="open-wc logo" src=${logo} /></div>
-        <h1>${this.header}</h1>
-
-        <p>Edit <code>src/MyProject2.js</code> and save to reload.</p>
+      <div class="custom-button-container">
+        <p class="label">Get the news by email</p>
         <a
-          class="app-link"
-          href="https://open-wc.org/guides/developing-components/code-examples/"
-          target="_blank"
-          rel="noopener noreferrer"
+          id="${this.id}"
+          href="${this.link}"
+          class="custom-button ${this.type}"
         >
-          Code examples
+          DISCOVER NEWS >
         </a>
-      </main>
-
-      <p class="app-footer">
-        🚽 Made with love by
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/open-wc"
-          >open-wc</a
-        >.
-      </p>
+      </div>
     `;
   }
 }
